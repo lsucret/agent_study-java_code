@@ -1,36 +1,26 @@
 package com.example.service;
 
-import com.example.config.ChatModelFactory;
-import com.example.tool.ActivitySearchTool;
-import com.example.tool.FlightSearchTool;
-import com.example.tool.HotelSearchTool;
-import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.service.AiServices;
+import com.example.model.TravelRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LangChain4jService {
     
-    private final TravelAgent travelAgent;
+    private final CWDTravelService cwdTravelService;
     
     @Autowired
-    public LangChain4jService(ChatModelFactory chatModelFactory) {
-        ChatLanguageModel chatModel = chatModelFactory.createChatModel();
-        
-        this.travelAgent = AiServices.builder(TravelAgent.class)
-                .chatLanguageModel(chatModel)
-                .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
-                .tools(new FlightSearchTool(), new HotelSearchTool(), new ActivitySearchTool())
-                .build();
+    public LangChain4jService(CWDTravelService cwdTravelService) {
+        this.cwdTravelService = cwdTravelService;
     }
     
     public String chat(String message) {
-        return travelAgent.planTravel(message);
-    }
-    
-    interface TravelAgent {
-        String planTravel(String request);
+        // 간단한 파싱 (실제로는 더 정교한 파싱 필요)
+        TravelRequest request = new TravelRequest(
+            "New York", "Paris", "2025-05-07", "2025-05-14", 
+            8000, 2, message
+        );
+        
+        return cwdTravelService.planTravel(request);
     }
 }

@@ -13,7 +13,7 @@ public class ActivitySearchTool {
                     date: Travel date (YYYY-MM-DD)
                \s
                 Returns:
-                    Dictionary containing flight options and prices
+                    Json containing flight options and prices
                     """)
     public String findActivities(String location, String date, String preferences) {
         // Python의 find_activities_lg 참고
