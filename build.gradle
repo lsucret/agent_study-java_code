@@ -46,14 +46,3 @@ tasks.withType(JavaCompile) {
     options.release = 17
 }
 
-compileJava {
-    options.compilerArgs += ['--enable-preview']
-}
-
-compileTestJava {
-    options.compilerArgs += ['--enable-preview']
-}
-
-run {
-    jvmArgs += ['--enable-preview']
-}
